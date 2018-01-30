@@ -1,11 +1,14 @@
 // read and set environmental variables
 require("dotenv").config();
 var keys = require('./keys.js');
-var Twitter = require('twitter');
-var Spotify = require('node-spotify-api');
-var request = require('request');
 
+// OMDB access
+var request = require('request');
+// spotify access
+var Spotify = require('node-spotify-api');
 var spotify = new Spotify(keys.spotify);
+// twitter access
+var Twitter = require('twitter');
 var client = new Twitter(keys.twitter);
 
 // user request is going to be accessible from index 2 (user will type in tweets/song/movie here)
@@ -22,8 +25,8 @@ switch (userRequest) {
         };
         client.get('statuses/user_timeline', params, function (error, tweets, response) {
             if (!error) {
-                for (var i=0; i<tweets.length; i++){
-                console.log(tweets[i].text + tweets[i].created_at);
+                for (var i = 0; i < tweets.length; i++) {
+                    console.log(tweets[i].text + tweets[i].created_at);
                 }
             }
         });
@@ -33,6 +36,16 @@ switch (userRequest) {
     case "spotify-this-song":
         // show artist, song name, preview song link from spotify, album song is from
         // default song is "the sign" by ace of base
+        spotify.search({ type: 'track', query: process.argv[3] })
+                .then(function (data) {
+                    for (var i=0; i=data.length; i++){
+                    var info = data[i].tracks.items;
+                console.log(info.name + info.name + info.album.name + info.preview_url);
+                    }
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
         // then stop
         break;
     // if request===movie
