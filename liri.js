@@ -1,7 +1,7 @@
+// read and set environmental variables
 require("dotenv").config();
 var keys = require('./keys.js');
 var Twitter = require('twitter');
-var T = new Twitter(keys);
 var Spotify = require('node-spotify-api');
 var request = require('request');
 
@@ -17,12 +17,14 @@ switch (userRequest) {
     // show last 20 tweets and when they were posted 
     case "my-tweets":
         var params = {
-            screen_name: 'nodejs',
+            screen_name: 'thisisnotcecily',
             count: 20
         };
         client.get('statuses/user_timeline', params, function (error, tweets, response) {
             if (!error) {
-                console.log(tweets);
+                for (var i=0; i<tweets.length; i++){
+                console.log(tweets[i].text + tweets[i].created_at);
+                }
             }
         });
         // then stop
