@@ -36,16 +36,15 @@ switch (userRequest) {
     case "spotify-this-song":
         // show artist, song name, preview song link from spotify, album song is from
         // default song is "the sign" by ace of base
-        spotify.search({ type: 'track', query: process.argv[3] })
-                .then(function (data) {
-                    for (var i=0; i=data.length; i++){
-                    var info = data[i].tracks.items;
-                console.log(info.name + info.name + info.album.name + info.preview_url);
-                    }
-            })
-            .catch(function (err) {
-                console.log(err);
-            });
+        spotify.search({ type: 'track', query: process.argv[3] }, function (err, data) {
+            if (err) {
+                return console.log('Error occurred: ' + err);
+            }else {
+            var info = data.tracks.items[0];
+            console.log("Song: " + info.name + " Artist: " + info.artists[0].name
+                + " Album: " + info.album.name + " Preview URL: " + info.preview_url);
+            };
+        });
         // then stop
         break;
     // if request===movie
@@ -72,4 +71,4 @@ switch (userRequest) {
 
 }
 
-// DO NOT FORGOT TO LINK TO PORTFOLIO AND ADD README
+// DO NOT FORGET TO LINK TO PORTFOLIO AND ADD README
