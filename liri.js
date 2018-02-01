@@ -1,7 +1,8 @@
 // read and set environmental variables
 require("dotenv").config();
 var keys = require('./keys.js');
-
+// node package for reading and writing files
+var fs = require("fs");
 // OMDB access
 var request = require('request');
 // spotify access
@@ -20,7 +21,7 @@ switch (userRequest) {
         break;
     case "spotify-this-song":
         spotifyCall();
-         // default song is "the sign" by ace of base
+        // default song is "the sign" by ace of base
         break;
     case "movie-this":
         movieSearch();
@@ -28,11 +29,8 @@ switch (userRequest) {
         // then stop
         break;
     case "do-what-it-says":
-        // do something
-        // take text in random.txt and call a LIRI command
-        // then stop
+        whatItSays();
         break;
-
     default:
         console.log("I'm sorry, I'm not smart enough.");
 
@@ -66,8 +64,8 @@ function spotifyCall() {
 };
 
 function movieSearch() {
-    
-    var movie= process.argv.slice(3);
+
+    var movie = process.argv.slice(3);
     var url = 'http://www.omdbapi.com/?apikey=trilogy&t=' + movie;
     request(url, function (error, response, body) {
         var jason = JSON.parse(body);
@@ -76,7 +74,20 @@ function movieSearch() {
         console.log('Movie Information:', "Title: " + jason.Title + " Year: " + jason.Year + " IMDB Rating: "
             + jason.imdbRating + " Rotten Tomato Rating: " + jason.Ratings[1].Value + " Country: " + jason.Country + " Language: " + jason.Language + " Plot: " +
             jason.Plot + " Actors: " + jason.Actors);
-    
+
+    });
+};
+
+function whatItSays() {
+    fs.readFile("random.txt", "utf8", function (error, data) {
+        // If the code experiences any errors it will log the error to the console.
+        if (error) {
+            return console.log(error);
+        }
+       // Then split it by commas (to make it more readable)
+        var dataArr = data.split(",").join("");
+        // We will then re-display the content as an array for later use.
+        console.log("node" + " liri.js " + dataArr);
     });
 };
 
