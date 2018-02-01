@@ -12,7 +12,7 @@ var spotify = new Spotify(keys.spotify);
 var Twitter = require('twitter');
 var client = new Twitter(keys.twitter);
 
-// user request is going to be accessible from index 2 (user will type in tweets/song/movie here)
+// user request is accessible from index 2 (user will type in tweets/song/movie here)
 var userRequest = process.argv[2];
 
 switch (userRequest) {
@@ -21,12 +21,9 @@ switch (userRequest) {
         break;
     case "spotify-this-song":
         spotifyCall();
-        // default song is "the sign" by ace of base
         break;
     case "movie-this":
         movieSearch();
-        // default is Mr. Nobody
-        // then stop
         break;
     case "do-what-it-says":
         whatItSays();
@@ -92,10 +89,12 @@ function whatItSays() {
        // Then split it by commas (to make it more readable)
         var dataArr = data.split(",").join("");
         // We will then re-display the content as an array for later use.
-        console.log("node" + " liri.js " + dataArr);
+        console.log("$ node" + " liri.js " + dataArr);
     });
 };
 
-
-
-// DO NOT FORGET TO LINK TO PORTFOLIO
+fs.appendFile("log.txt", process.argv.slice(2) + "\r\n",function(err){
+    if(err)
+      console.error(err);
+    console.log('Appended!');
+  });
