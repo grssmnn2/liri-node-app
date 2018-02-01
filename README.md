@@ -8,4 +8,4 @@ enter "spotify-this-song" and song title to access song information
 
 enter "movie-this" and movie title to access movie information
 
-enter "do-what-it-says" and use text from local file to call a LIRI command
+enter "do-what-it-says" to call a LIRI command

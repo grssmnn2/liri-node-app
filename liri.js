@@ -20,6 +20,7 @@ switch (userRequest) {
         break;
     case "spotify-this-song":
         spotifyCall();
+         // default song is "the sign" by ace of base
         break;
     case "movie-this":
         movieSearch();
@@ -52,8 +53,6 @@ function myTweets() {
     });
 }
 function spotifyCall() {
-    // show artist, song name, preview song link from spotify, album song is from
-    // default song is "the sign" by ace of base
     var user = process.argv.slice(3);
     spotify.search({ type: 'track', query: user }, function (err, data) {
         if (err) {
@@ -66,19 +65,20 @@ function spotifyCall() {
     });
 };
 
-    function movieSearch() {
-       
-        var movie = process.argv.slice(3);
-        var url = 'http://www.omdbapi.com/?apikey=trilogy&t='+ movie;
-        request(url, function (error, response, body) {
-            var jason = JSON.parse(body);
-            console.log('error:', error); // Print the error if one occurred
-            console.log('statusCode:', response && response.statusCode);
-            console.log('Movie Information:', "Title: " + jason.Title + " Year: " + jason.Year + " IMDB Rating: "
+function movieSearch() {
+    
+    var movie= process.argv.slice(3);
+    var url = 'http://www.omdbapi.com/?apikey=trilogy&t=' + movie;
+    request(url, function (error, response, body) {
+        var jason = JSON.parse(body);
+        console.log('error:', error);
+        console.log('statusCode:', response && response.statusCode);
+        console.log('Movie Information:', "Title: " + jason.Title + " Year: " + jason.Year + " IMDB Rating: "
             + jason.imdbRating + " Rotten Tomato Rating: " + jason.Ratings[1].Value + " Country: " + jason.Country + " Language: " + jason.Language + " Plot: " +
             jason.Plot + " Actors: " + jason.Actors);
-        });
-    };
+    
+    });
+};
 
 
 
