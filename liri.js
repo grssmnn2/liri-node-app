@@ -14,49 +14,15 @@ var client = new Twitter(keys.twitter);
 // user request is going to be accessible from index 2 (user will type in tweets/song/movie here)
 var userRequest = process.argv[2];
 
-// use a switch or if statement, switch is another way to write lots of if statements
 switch (userRequest) {
-    // if request === tweets,
-    // show last 20 tweets and when they were posted 
     case "my-tweets":
-        var params = {
-            screen_name: 'thisisnotcecily',
-            count: 20
-        };
-        client.get('statuses/user_timeline', params, function (error, tweets, response) {
-            if (!error) {
-                for (var i = 0; i < tweets.length; i++) {
-                    console.log(tweets[i].text + tweets[i].created_at);
-                }
-            }
-        });
-        // then stop
+        myTweets();
         break;
-    // if request===spotify song
     case "spotify-this-song":
-        // show artist, song name, preview song link from spotify, album song is from
-        // default song is "the sign" by ace of base
-        spotify.search({ type: 'track', query: process.argv[3] }, function (err, data) {
-            if (err) {
-                return console.log('Error occurred: ' + err);
-            }else {
-            var info = data.tracks.items[0];
-            console.log("Song: " + info.name + " Artist: " + info.artists[0].name
-                + " Album: " + info.album.name + " Preview URL: " + info.preview_url);
-            };
-        });
-        // then stop
+        spotifyCall();
         break;
-    // if request===movie
     case "movie-this":
-        // * Title of the movie.
-        // * Year the movie came out.
-        // * IMDB Rating of the movie.
-        // * Rotten Tomatoes Rating of the movie.
-        // * Country where the movie was produced.
-        // * Language of the movie.
-        // * Plot of the movie.
-        // * Actors in the movie.
+        movieSearch();
         // default is Mr. Nobody
         // then stop
         break;
@@ -71,4 +37,49 @@ switch (userRequest) {
 
 }
 
-// DO NOT FORGET TO LINK TO PORTFOLIO AND ADD README
+function myTweets() {
+    // show last 20 tweets and when they were posted 
+    var params = {
+        screen_name: 'thisisnotcecily',
+        count: 20
+    };
+    client.get('statuses/user_timeline', params, function (error, tweets, response) {
+        if (!error) {
+            for (var i = 0; i < tweets.length; i++) {
+                console.log(tweets[i].text + tweets[i].created_at);
+            }
+        }
+    });
+}
+function spotifyCall() {
+    // show artist, song name, preview song link from spotify, album song is from
+    // default song is "the sign" by ace of base
+    var user = process.argv.slice(3);
+    spotify.search({ type: 'track', query: user }, function (err, data) {
+        if (err) {
+            return console.log('Error occurred: ' + err);
+        } else {
+            var info = data.tracks.items[0];
+            console.log("Song: " + info.name + " Artist: " + info.artists[0].name
+                + " Album: " + info.album.name + " Preview URL: " + info.preview_url);
+        };
+    });
+};
+
+    function movieSearch() {
+       
+        var movie = process.argv.slice(3);
+        var url = 'http://www.omdbapi.com/?apikey=trilogy&t='+ movie;
+        request(url, function (error, response, body) {
+            var jason = JSON.parse(body);
+            console.log('error:', error); // Print the error if one occurred
+            console.log('statusCode:', response && response.statusCode);
+            console.log('Movie Information:', "Title: " + jason.Title + " Year: " + jason.Year + " IMDB Rating: "
+            + jason.imdbRating + " Rotten Tomato Rating: " + jason.Ratings[1].Value + " Country: " + jason.Country + " Language: " + jason.Language + " Plot: " +
+            jason.Plot + " Actors: " + jason.Actors);
+        });
+    };
+
+
+
+// DO NOT FORGET TO LINK TO PORTFOLIO

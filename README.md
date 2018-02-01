@@ -2,7 +2,7 @@
 LIRI APP
 Using the command line and node JS:
 
-enter "my-tweets" and username to access last 20 tweets
+enter "my-tweets" to access last 20 tweets
 
 enter "spotify-this-song" and song title to access song information
 
