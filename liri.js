@@ -42,7 +42,7 @@ function myTweets() {
     client.get('statuses/user_timeline', params, function (error, tweets, response) {
         if (!error) {
             for (var i = 0; i < tweets.length; i++) {
-                console.log(tweets[i].text + tweets[i].created_at);
+                console.log("Tweet: " + tweets[i].text + " Date Posted: " + tweets[i].created_at);
             }
         }
     });
@@ -57,8 +57,10 @@ function spotifyCall() {
             return console.log('Error occurred: ' + err);
         } else {
             var info = data.tracks.items[0];
-            console.log("Song: " + info.name + " Artist: " + info.artists[0].name
-                + " Album: " + info.album.name + " Preview URL: " + info.preview_url);
+            console.log("Song: " + info.name+ "\r\n"
+            + " Artist: " + info.artists[0].name+ "\r\n"
+            + " Album: " + info.album.name+ "\r\n"
+            + " Preview URL: " + info.preview_url);
         };
     });
 };
@@ -73,9 +75,15 @@ function movieSearch() {
         var jason = JSON.parse(body);
         console.log('error:', error);
         console.log('statusCode:', response && response.statusCode);
-        console.log('Movie Information:', "Title: " + jason.Title + " Year: " + jason.Year + " IMDB Rating: "
-            + jason.imdbRating + " Rotten Tomato Rating: " + jason.Ratings[1].Value + " Country: " + jason.Country + " Language: " + jason.Language + " Plot: " +
-            jason.Plot + " Actors: " + jason.Actors);
+        console.log('Movie Information:'+ "\r\n",
+         "Title: " + jason.Title + "\r\n"
+         + " Year: " + jason.Year+ "\r\n"
+        + " IMDB Rating: " + jason.imdbRating + "\r\n"
+        + " Rotten Tomato Rating: " + jason.Ratings[1].Value + "\r\n" 
+        + " Country: " + jason.Country + "\r\n" 
+        + " Language: " + jason.Language+ "\r\n" 
+        + " Plot: " + jason.Plot+ "\r\n"
+        + " Actors: " + jason.Actors);
 
     });
 };
@@ -92,7 +100,7 @@ function whatItSays() {
         console.log("$ node" + " liri.js " + dataArr);
     });
 };
-
+// append file to log.txt with line break after user input
 fs.appendFile("log.txt", process.argv.slice(2) + "\r\n",function(err){
     if(err)
       console.error(err);
