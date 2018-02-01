@@ -52,6 +52,9 @@ function myTweets() {
 }
 function spotifyCall() {
     var user = process.argv.slice(3);
+    if (process.argv[3]===undefined){
+        user="the sign";
+    };
     spotify.search({ type: 'track', query: user }, function (err, data) {
         if (err) {
             return console.log('Error occurred: ' + err);
@@ -64,8 +67,10 @@ function spotifyCall() {
 };
 
 function movieSearch() {
-
-    var movie = process.argv.slice(3);
+    var movie= process.argv.slice(3);
+    if (process.argv[3]===undefined){
+        movie = "Mr. Nobody"; 
+    }           
     var url = 'http://www.omdbapi.com/?apikey=trilogy&t=' + movie;
     request(url, function (error, response, body) {
         var jason = JSON.parse(body);
